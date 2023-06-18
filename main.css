@@ -1,0 +1,115 @@
+@font-face {
+  font-family: resin;
+  src: url(./RESIN-Regular.ttf);
+}
+
+@font-face {
+  font-family: heming;
+  src: url(./Heming-Variable.ttf);
+}
+
+/*
+ #23395d, #203354, #1c2e4a. HEX colors #23395d, #203354, #1c2e4a, #192841, #152238
+ */
+
+html {
+  --solid-purple: #7c4dff;
+  --solid-blue: #18a9e6;
+  --solid-dark: #162542;
+  --solid-gray: #6a6a6a;
+  --liquid-light-blue: #1c2e4a;
+  --liquid-dark-blue: #23395d;
+  height: 100%;
+  background-color: var(--liquid-dark-blue);
+  background-image: linear-gradient(135deg, var(--liquid-dark-blue) 20%, var(--liquid-light-blue) 80%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  overscroll-behavior: none
+
+}
+
+#canvas {
+    width: 100vw;
+    height: 100vh;
+    /*
+    position: absolute;
+    */
+    position: fixed;
+    z-index: -1;
+    top: 0;
+    left: 0;
+}
+
+.container {
+  position: absolute;
+  font-family: resin, 'Courier New', monospace;
+  color: white;
+  font-size: 2em;
+}
+
+#intro{
+  width: 100vw;
+  height: 100vh;
+}
+
+#intro p {
+  position: absolute;
+  top: 50vh;
+  font-size: 3em;
+
+  /*
+  left: 50%;
+  transform: translate(-50%,-25vh);
+  */
+
+  transform: translate(0%,-50%);
+  margin: 0 2em;
+}
+
+#manifesto{
+  margin: 3em 2em;
+  font-size: 2em;
+  width: 80vw;
+
+}
+
+.text-font {
+  font-family: 'heming', monospace;
+  font-weight: 500;
+}
+
+#manifesto p {
+  font-size: 1em;
+  /*font-family: 'Helvetica', 'Arial', sans-serif;*/
+}
+
+#project {
+  margin: 2em;
+  font-size: 2em;
+}
+
+a { 
+  color: #ffb6c1;
+  position: relative;
+  top: -2px;
+  left: 2px;
+  text-shadow: -2px 2px 0px rgba(40,40,40,0.8);
+  text-decoration: none;
+
+}
+
+a:hover {
+  color: #ffb6c1;
+  position: relative;
+  top: -4px;
+  left: 4px;
+  text-shadow: -4px 4px 0px rgba(40,40,40,0.8);
+
+}
+a:active {
+  color: #ffb6c1;
+  position: relative;
+  top: 4px;
+  left: -4px;
+  text-shadow: 2px -2px 0px rgba(40,40,40,0.8);
+}
