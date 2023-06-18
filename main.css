@@ -42,9 +42,17 @@ html {
 
 .container {
   position: absolute;
+  overflow-wrap: break-word;
   font-family: resin, 'Courier New', monospace;
   color: white;
   font-size: 2em;
+}
+
+@media (min-width: 600px) {
+  section {
+    margin-left: 2em;
+    margin-right: 2em;
+  }
 }
 
 #intro{
@@ -63,11 +71,12 @@ html {
   */
 
   transform: translate(0%,-50%);
-  margin: 0 2em;
 }
 
+
 #manifesto{
-  margin: 3em 2em;
+  margin-top: 3em;
+  margin-bottom: 3em;
   font-size: 2em;
   width: 80vw;
 
@@ -84,8 +93,10 @@ html {
 }
 
 #project {
-  margin: 2em;
   font-size: 2em;
+}
+
+#whoweare {
 }
 
 a { 
