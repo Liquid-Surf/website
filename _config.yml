@@ -8,8 +8,8 @@ plugins:
   - jekyll-postcss
   - jekyll-sitemap
 
-# domain: liquid.surf
-# url: https://liquid.surf/
+domain: liquid.surf
+url: https://liquid.surf/
 
 defaults:
   - scope:
