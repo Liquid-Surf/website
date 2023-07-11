@@ -1,0 +1,12 @@
+---
+title: Blog
+description:
+---
+
+<div class="blog">
+  <div class="blog__posts">
+    {% for post in site.posts %}
+      {% include post.html %}
+    {% endfor %}
+  </div>
+</div>

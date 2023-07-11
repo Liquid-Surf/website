@@ -1,11 +1,11 @@
 @font-face {
   font-family: resin;
-  src: url(./RESIN-Regular.ttf);
+  src: url(../fonts/RESIN-Regular.ttf);
 }
 
 @font-face {
   font-family: heming;
-  src: url(./Heming-Variable.ttf);
+  src: url(../fonts/Heming-Variable.ttf);
 }
 
 /*
@@ -24,8 +24,8 @@ html {
   background-image: linear-gradient(135deg, var(--liquid-dark-blue) 20%, var(--liquid-light-blue) 80%);
   background-repeat: no-repeat;
   background-attachment: fixed;
-  overscroll-behavior: none
-
+  overscroll-behavior: none;
+  font-family: resin, 'Courier New', monospace;
 }
 
 #canvas {
@@ -43,7 +43,6 @@ html {
 .container {
   position: absolute;
   overflow-wrap: break-word;
-  font-family: resin, 'Courier New', monospace;
   color: white;
   font-size: 2em;
 }
@@ -99,7 +98,7 @@ html {
 #whoweare {
 }
 
-a { 
+a {
   color: #ffb6c1;
   position: relative;
   top: -2px;
@@ -123,4 +122,65 @@ a:active {
   top: 4px;
   left: -4px;
   text-shadow: 2px -2px 0px rgba(40,40,40,0.8);
+}
+
+.blog__post {
+  display: flex;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 1em;
+  margin: 1em auto; /* Center the cards horizontally and add spacing */
+  border-radius: 5px;
+  max-width: 600px; /* Limit the maximum width of the cards */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+}
+
+.blog__date {
+  flex: 1;
+}
+
+.blog__content {
+  flex: 2;
+  padding-left: 1em;
+}
+
+.post__title {
+  font-size: 1.5em;
+}
+
+.post__date {
+  font-size: 0.8em;
+  color: var(--solid-blue);
+}
+
+.post__description {
+  font-size: 1em;
+}
+
+.navbar {
+  background-color: var(--solid-dark);
+  padding: 1em;
+}
+
+.nav-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.nav-item {
+  margin-right: 1em;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-size: 1.75em;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: var(--solid-blue);
 }
