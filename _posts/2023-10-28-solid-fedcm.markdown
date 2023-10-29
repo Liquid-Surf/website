@@ -82,11 +82,11 @@ This script will expose our updated get method and expose it on `_navigator`. Th
 
 ### Flow
 
-1. Register and sign into the IdP on idp-1.localhost:8080
-2. Register and sign into the IdP on idp-2.localhost:8080
-3. Go to the RP at localhost:7080
+1. Register and sign into the IdP on `idp-1.localhost:8080`
+2. Register and sign into the IdP on `idp-2.localhost:8080`
+3. Go to the RP at `localhost:7080`
 4. Press Login
-5. This should prompt you now with the option to continue with both IdPs, even though the RP only knew about idp-1 and queried the fake FedCM storage for idp-2.
+5. This should prompt you now with the option to continue with both IdPs, even though the RP only knew about `idp-1` and queried the fake FedCM storage for `idp-2`.
 
 ## References
 

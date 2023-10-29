@@ -10,11 +10,12 @@
   <meta name="description" content="" />
 
   <link rel="icon" href="/assets/images/favicon.ico" />
-  <link rel="stylesheet" href="/assets/css/style.css" />
+
   <link rel="alternate" type="application/rss+xml"  href="/feed.xml" title="The official Liquid Surf blog">
 </head>
 
 
+<link rel="stylesheet" href="/assets/css/simple.css" />
 <body>
 
 <div class="layout">
@@ -102,11 +103,11 @@ json-server <span class="nt">--watch</span> db.json
 <h3 id="flow">Flow</h3>
 
 <ol>
-  <li>Register and sign into the IdP on idp-1.localhost:8080</li>
-  <li>Register and sign into the IdP on idp-2.localhost:8080</li>
-  <li>Go to the RP at localhost:7080</li>
+  <li>Register and sign into the IdP on <code class="language-plaintext highlighter-rouge">idp-1.localhost:8080</code></li>
+  <li>Register and sign into the IdP on <code class="language-plaintext highlighter-rouge">idp-2.localhost:8080</code></li>
+  <li>Go to the RP at <code class="language-plaintext highlighter-rouge">localhost:7080</code></li>
   <li>Press Login</li>
-  <li>This should prompt you now with the option to continue with both IdPs, even though the RP only knew about idp-1 and queried the fake FedCM storage for idp-2.</li>
+  <li>This should prompt you now with the option to continue with both IdPs, even though the RP only knew about <code class="language-plaintext highlighter-rouge">idp-1</code> and queried the fake FedCM storage for <code class="language-plaintext highlighter-rouge">idp-2</code>.</li>
 </ol>
 
 <h2 id="references">References</h2>
