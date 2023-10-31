@@ -1,0 +1,12 @@
+<head>
+  <title>{{ site.title }} &mdash; {% if page.title %}{{ page.title }}{% else %}{{ site.description }}{% endif %}</title>
+  <meta charset="utf-8" />
+  <meta content="ie=edge" http-equiv="x-ua-compatible" />
+  <meta name="handheldfriendly" content="true" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{{ description }}" />
+
+  <link rel="icon" href="/assets/images/favicon.ico" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+  <link rel="alternate" type="application/rss+xml"  href="{{ site.feed_path }}" title="The official {{ site.title }} blog">
+</head>

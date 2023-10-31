@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-10-29T13:32:31+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Liquid Surf</title><subtitle>Liquid is fluidifying SoLiD.</subtitle><entry><title type="html">FedCM and BYOIDP</title><link href="http://localhost:4000/2023/10/6/solid-fedcm" rel="alternate" type="text/html" title="FedCM and BYOIDP" /><published>2023-10-06T00:00:00+02:00</published><updated>2023-10-06T00:00:00+02:00</updated><id>http://localhost:4000/2023/10/6/solid-fedcm</id><content type="html" xml:base="http://localhost:4000/2023/10/6/solid-fedcm">&lt;h2 id=&quot;federated-credential-management&quot;&gt;Federated Credential Management&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;The Federated Credential Management API (or FedCM API) provides a standard mechanism for identity providers (IdPs) to make identity federation services available on the web in a privacy-preserving way, without the need for third-party cookies and redirects. This includes a JavaScript API that enables the use of federated authentication for activities such as signing in or signing up on a website.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;An end-user using a web app with FedCM will not have to be redirected to their IdP in order to receive its access token, but can use a new native browser UI to log in. The need for &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;iframe&amp;gt;&lt;/code&gt;, redirects, and third-party cookies to enable identity federation becomes obsolete, a win in user-privacy and user-experience.&lt;/p&gt;
+
+&lt;h2 id=&quot;goal&quot;&gt;Goal&lt;/h2&gt;
+
+&lt;p&gt;FedCM currently supports logging in a user-agent when the IdP is &lt;em&gt;known&lt;/em&gt;. This means the RP needs to define a list of supported IdPs that it then passes to the FedCM API. The goal for this demo is to provide a &lt;em&gt;bring your own identity provider&lt;/em&gt; functionality, so that when querying FedCM with the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;get&lt;/code&gt; call, it will find all registered (previously logged in to) IdPs and return the list to the user. This way the RP does not need to provide a list of IdPs it wants to support but can simply allow this &lt;em&gt;wildcard&lt;/em&gt; approach.&lt;/p&gt;
+
+&lt;h2 id=&quot;demo&quot;&gt;Demo&lt;/h2&gt;
+
+&lt;p&gt;Clone the demo repositories.&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git clone git@github.com:Liquid-Surf/fedcm-rp-node.git
+git clone git@github.com:Liquid-Surf/fedcm-idp-typescript.git
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Follow the instructions to run the RP and IdP. For this demo it is needed to run multiple IdPs.&lt;/p&gt;
+
+&lt;p&gt;Mapping the IdPs in your host file allows the FedCM demo to run multiple IdPs on localhost.&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo tee&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-a&lt;/span&gt; /etc/hosts &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; /dev/null &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;EOT&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;
+127.0.0.1       idp-1.localhost
+127.0.0.1       idp-2.localhost
+127.0.0.1       idp-3.localhost
+&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;EOT
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now we want to inject our own version of the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;navigator.credentials.get&lt;/code&gt; function that supports querying for registered IdPs. For this we use &lt;a href=&quot;https://github.com/Tampermonkey/tampermonkey&quot;&gt;Tampermonkey&lt;/a&gt; (a browser extension should also work) and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;json-server&lt;/code&gt; to keep track of registered IdPs.&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;npm &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-g&lt;/span&gt; json-server
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;{ &quot;providers&quot;: { &quot;urls&quot;: [] } }&apos;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; db.json
+json-server &lt;span class=&quot;nt&quot;&gt;--watch&lt;/span&gt; db.json
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The IdPs will post their hostname to this &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;db.json&lt;/code&gt; file when a user logs in.&lt;/p&gt;
+
+&lt;p&gt;This script will expose our updated get method and expose it on &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_navigator&lt;/code&gt;. This will be called instead of the real &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;get&lt;/code&gt; in the RP and injected using Tampermonkey.&lt;/p&gt;
+
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;use strict&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// Fetch the registered IdPs from the fake FedCM Store/JSON server&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;fetch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;http://localhost:3000/providers&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;providerUrls&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;json&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// Extract the URL data and create registered providers&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;providersFromFakeFedCMStore&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;idpUrls&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;urls&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;nonce&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;not-a-nonce&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;configURL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;`http://&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;:8080/fedcm.json`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;clientId&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;yourClientID&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}));&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;getCredentials&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;identity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;providersFromRP&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;identity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;providers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;providers&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;identity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;registered&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;providersFromFakeFedCMStore&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;concat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;providersFromRP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;providersFromRP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;navigator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;credentials&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;identity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;providers&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;nb&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;_navigator&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;credentials&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;getCredentials&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;})();&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;flow&quot;&gt;Flow&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Register and sign into the IdP on idp-1.localhost:8080&lt;/li&gt;
+  &lt;li&gt;Register and sign into the IdP on idp-2.localhost:8080&lt;/li&gt;
+  &lt;li&gt;Go to the RP at localhost:7080&lt;/li&gt;
+  &lt;li&gt;Press Login&lt;/li&gt;
+  &lt;li&gt;This should prompt you now with the option to continue with both IdPs, even though the RP only knew about idp-1 and queried the fake FedCM storage for idp-2.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/API/FedCM_API&quot;&gt;https://developer.mozilla.org/en-US/docs/Web/API/FedCM_API&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/typicode/json-server&quot;&gt;https://github.com/typicode/json-server&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/Tampermonkey/tampermonkey&quot;&gt;https://github.com/Tampermonkey/tampermonkey&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>jan</name></author><summary type="html">Federated Credential Management</summary></entry><entry><title type="html">Welcome to the Blog</title><link href="http://localhost:4000/2023/6/24/welcome-to-the-blog" rel="alternate" type="text/html" title="Welcome to the Blog" /><published>2023-06-24T00:00:00+02:00</published><updated>2023-06-24T00:00:00+02:00</updated><id>http://localhost:4000/2023/6/24/welcome-to-the-blog</id><content type="html" xml:base="http://localhost:4000/2023/6/24/welcome-to-the-blog">&lt;p&gt;Hi, it’s &lt;a href=&quot;https://github.com/janschill&quot;&gt;Jan&lt;/a&gt;, we now have a blog.&lt;/p&gt;</content><author><name>jan</name></author><summary type="html">Hi, it’s Jan, we now have a blog.</summary></entry></feed>

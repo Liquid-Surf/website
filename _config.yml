@@ -1,0 +1,34 @@
+title: Liquid Surf
+description: Liquid is fluidifying SoLiD.
+# twitter:
+feed_path: /feed.xml
+
+plugins:
+  - jekyll-feed
+  - jekyll-postcss
+  - jekyll-sitemap
+
+# domain: liquid.surf
+# url: https://liquid.surf/
+
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      permalink: "/:year/:i_month/:i_day/:title"
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+
+# sass:
+#   sass_dir: _sass
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - vendor/

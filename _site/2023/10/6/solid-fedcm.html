@@ -1,0 +1,126 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <title>Liquid Surf &mdash; FedCM and BYOIDP</title>
+  <meta charset="utf-8" />
+  <meta content="ie=edge" http-equiv="x-ua-compatible" />
+  <meta name="handheldfriendly" content="true" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="" />
+
+  <link rel="icon" href="/assets/images/favicon.ico" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+  <link rel="alternate" type="application/rss+xml"  href="/feed.xml" title="The official Liquid Surf blog">
+</head>
+
+
+<body>
+
+<div class="layout">
+  <div class="post">
+    <div class="container">
+      <div class="post__headline common-headline">
+        <h5>Friday, October 6, 2023</h5>
+        <h2>FedCM and BYOIDP</h2>
+
+        <h6>Posted by jan</h6>
+
+      </div>
+      <div class="post__content">
+        <h2 id="federated-credential-management">Federated Credential Management</h2>
+
+<blockquote>
+  <p>The Federated Credential Management API (or FedCM API) provides a standard mechanism for identity providers (IdPs) to make identity federation services available on the web in a privacy-preserving way, without the need for third-party cookies and redirects. This includes a JavaScript API that enables the use of federated authentication for activities such as signing in or signing up on a website.</p>
+</blockquote>
+
+<p>An end-user using a web app with FedCM will not have to be redirected to their IdP in order to receive its access token, but can use a new native browser UI to log in. The need for <code class="language-plaintext highlighter-rouge">&lt;iframe&gt;</code>, redirects, and third-party cookies to enable identity federation becomes obsolete, a win in user-privacy and user-experience.</p>
+
+<h2 id="goal">Goal</h2>
+
+<p>FedCM currently supports logging in a user-agent when the IdP is <em>known</em>. This means the RP needs to define a list of supported IdPs that it then passes to the FedCM API. The goal for this demo is to provide a <em>bring your own identity provider</em> functionality, so that when querying FedCM with the <code class="language-plaintext highlighter-rouge">get</code> call, it will find all registered (previously logged in to) IdPs and return the list to the user. This way the RP does not need to provide a list of IdPs it wants to support but can simply allow this <em>wildcard</em> approach.</p>
+
+<h2 id="demo">Demo</h2>
+
+<p>Clone the demo repositories.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone git@github.com:Liquid-Surf/fedcm-rp-node.git
+git clone git@github.com:Liquid-Surf/fedcm-idp-typescript.git
+</code></pre></div></div>
+
+<p>Follow the instructions to run the RP and IdP. For this demo it is needed to run multiple IdPs.</p>
+
+<p>Mapping the IdPs in your host file allows the FedCM demo to run multiple IdPs on localhost.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo tee</span> <span class="nt">-a</span> /etc/hosts <span class="o">&gt;</span> /dev/null <span class="o">&lt;&lt;</span><span class="no">EOT</span><span class="sh">
+127.0.0.1       idp-1.localhost
+127.0.0.1       idp-2.localhost
+127.0.0.1       idp-3.localhost
+</span><span class="no">EOT
+</span></code></pre></div></div>
+
+<p>Now we want to inject our own version of the <code class="language-plaintext highlighter-rouge">navigator.credentials.get</code> function that supports querying for registered IdPs. For this we use <a href="https://github.com/Tampermonkey/tampermonkey">Tampermonkey</a> (a browser extension should also work) and <code class="language-plaintext highlighter-rouge">json-server</code> to keep track of registered IdPs.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install</span> <span class="nt">-g</span> json-server
+<span class="nb">echo</span> <span class="s1">'{ "providers": { "urls": [] } }'</span> <span class="o">&gt;&gt;</span> db.json
+json-server <span class="nt">--watch</span> db.json
+</code></pre></div></div>
+
+<p>The IdPs will post their hostname to this <code class="language-plaintext highlighter-rouge">db.json</code> file when a user logs in.</p>
+
+<p>This script will expose our updated get method and expose it on <code class="language-plaintext highlighter-rouge">_navigator</code>. This will be called instead of the real <code class="language-plaintext highlighter-rouge">get</code> in the RP and injected using Tampermonkey.</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">async</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="dl">'</span><span class="s1">use strict</span><span class="dl">'</span><span class="p">;</span>
+
+    <span class="c1">// Fetch the registered IdPs from the fake FedCM Store/JSON server</span>
+    <span class="kd">const</span> <span class="nx">response</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">fetch</span><span class="p">(</span><span class="dl">"</span><span class="s2">http://localhost:3000/providers</span><span class="dl">"</span><span class="p">);</span>
+    <span class="kd">const</span> <span class="nx">providerUrls</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+
+    <span class="c1">// Extract the URL data and create registered providers</span>
+    <span class="kd">const</span> <span class="nx">providersFromFakeFedCMStore</span> <span class="o">=</span> <span class="nx">idpUrls</span><span class="p">.</span><span class="nx">urls</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">url</span> <span class="o">=&gt;</span> <span class="p">({</span>
+        <span class="na">nonce</span><span class="p">:</span> <span class="dl">"</span><span class="s2">not-a-nonce</span><span class="dl">"</span><span class="p">,</span>
+        <span class="na">configURL</span><span class="p">:</span> <span class="s2">`http://</span><span class="p">${</span><span class="nx">url</span><span class="p">}</span><span class="s2">:8080/fedcm.json`</span><span class="p">,</span>
+        <span class="na">clientId</span><span class="p">:</span> <span class="dl">"</span><span class="s2">yourClientID</span><span class="dl">"</span>
+    <span class="p">}));</span>
+
+    <span class="kd">function</span> <span class="nx">getCredentials</span><span class="p">(</span><span class="nx">identity</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">const</span> <span class="nx">providersFromRP</span> <span class="o">=</span> <span class="nx">identity</span><span class="p">.</span><span class="nx">providers</span><span class="p">;</span>
+        <span class="kd">const</span> <span class="nx">providers</span> <span class="o">=</span> <span class="nx">identity</span><span class="p">.</span><span class="nx">registered</span> <span class="p">?</span> <span class="nx">providersFromFakeFedCMStore</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">providersFromRP</span><span class="p">)</span> <span class="p">:</span> <span class="nx">providersFromRP</span><span class="p">;</span>
+
+        <span class="k">return</span> <span class="nb">navigator</span><span class="p">.</span><span class="nx">credentials</span><span class="p">.</span><span class="kd">get</span><span class="p">({</span>
+            <span class="na">identity</span><span class="p">:</span> <span class="p">{</span> <span class="nx">providers</span> <span class="p">}</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+
+    <span class="nb">window</span><span class="p">.</span><span class="nx">_navigator</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="na">credentials</span><span class="p">:</span> <span class="p">{</span> <span class="na">get</span><span class="p">:</span> <span class="nx">getCredentials</span> <span class="p">}</span>
+    <span class="p">};</span>
+<span class="p">})();</span>
+</code></pre></div></div>
+
+<h3 id="flow">Flow</h3>
+
+<ol>
+  <li>Register and sign into the IdP on idp-1.localhost:8080</li>
+  <li>Register and sign into the IdP on idp-2.localhost:8080</li>
+  <li>Go to the RP at localhost:7080</li>
+  <li>Press Login</li>
+  <li>This should prompt you now with the option to continue with both IdPs, even though the RP only knew about idp-1 and queried the fake FedCM storage for idp-2.</li>
+</ol>
+
+<h2 id="references">References</h2>
+
+<ul>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/FedCM_API">https://developer.mozilla.org/en-US/docs/Web/API/FedCM_API</a></li>
+  <li><a href="https://github.com/typicode/json-server">https://github.com/typicode/json-server</a></li>
+  <li><a href="https://github.com/Tampermonkey/tampermonkey">https://github.com/Tampermonkey/tampermonkey</a></li>
+</ul>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
