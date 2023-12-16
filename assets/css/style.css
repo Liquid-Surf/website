@@ -145,6 +145,8 @@ a:active {
 
 .post__title {
   font-size: 1.5em;
+  font-family: heming, 'Courier New', monospace;
+
 }
 
 .post__date {
@@ -154,6 +156,8 @@ a:active {
 
 .post__description {
   font-size: 1em;
+  font-family: heming, 'Courier New', monospace;
+
 }
 
 .navbar {
