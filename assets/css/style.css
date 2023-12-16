@@ -126,7 +126,7 @@ a:active {
 
 .blog__post {
   display: flex;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.1);
   padding: 1em;
   margin: 1em auto; /* Center the cards horizontally and add spacing */
   border-radius: 5px;
