@@ -34,10 +34,12 @@ This concentration of control not only stifles innovation and competition from s
 The present implementation of FedCM requires Relying Parties to offer a predefined list of IDPs through the browser's FedCM API, a practice mirroring the current trend in federated identification. Typically, this list is dominated by major tech companies like the usual Sign in with Facebook, Google, and GitHub. This preference arises as RPs often choose the most famous IDPs for their wider user base and perceived reliability. While this approach aligns with what users and developers are accustomed to, it perpetuates a significant drawback: the marginalization of smaller and independent IDPs. RPs tend to prioritize popular and widely used IDPs, inadvertently sustaining the tech giants' monopoly. Consequently, smaller and independent IDPs face challenges in gaining visibility and usage, overshadowed by the more established names often used by RPs.
 
 
+
 ## Promoting Equality: A Proposed FedCM Model Favoring Diverse IDPs
 
 A more equitable implementation of FedCM could significantly benefit other IDPs. In this alternative implementation, the browser would maintain a list of IDPs that a user has previously registered with or signed into. This list gets populated as IDPs self-register with the browser during user registration or sign-in processes. In addition to relying on a hardcoded list of IDPs, Relying Parties (RPs) could also ask for registered IDPs when calling the FedCM API. This change allows the browser to present its own list of IDPs, which includes a broader range of providers. Such a model levels the playing field for other IDPs, enhancing user autonomy and fostering a more diverse identity ecosystem. It represents an important step away from the dominance of major tech companies in the realm of digital identities.
 
+![image5](https://hackmd.io/_uploads/SJnEeXWjp.jpg)
 
 ## Benefits for the Decentralized Community
 
@@ -49,4 +51,4 @@ This FedCM implementation offers key advantages for the decentralized web.
 
 ## Call to Action
 
-While FedCM is a step in the right direction, its current specs need to be push a bit further to stride towards a more balanced and diverse web. The specs are willing to go in this direction but don't want to develop and maintain a feature if it is not used [ref]. If you believe this implementation of FedCM could be usefull for your community/tech/app please join our discussion [here](https://github.com/fedidcg/FedCM/issues/240#issuecomment-1335421460)
+While FedCM is a step in the right direction, its current specs need to be push a bit further to stride towards a more balanced and diverse web. The specs are willing to go in this direction but don't want to develop and maintain a feature if it is not used [1](https://github.com/fedidcg/FedCM/issues/240#issuecomment-1783887988). If you believe this implementation of FedCM could be usefull for your community/tech/app please join our discussion [here](https://github.com/fedidcg/FedCM/issues/240)
