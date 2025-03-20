@@ -31,9 +31,6 @@ html {
 #canvas {
     width: 100vw;
     height: 100vh;
-    /*
-    position: absolute;
-    */
     position: fixed;
     z-index: -1;
     top: 0;
@@ -41,40 +38,34 @@ html {
 }
 
 .container {
-  position: absolute;
-  overflow-wrap: break-word;
+  /*! overflow-wrap: unset; */
   color: white;
   font-size: 2em;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @media (min-width: 600px) {
-  section {
-    margin-left: 2em;
-    margin-right: 2em;
+  .container {
+      /*! padding: 1em; */
   }
 }
 
 #intro{
-  width: 100vw;
-  height: 100vh;
+  height: 80vh;
+  display: flex;
+  align-items: center;
 }
 
 #intro p {
-  position: absolute;
-  top: 50vh;
+  top: 40vh;
   font-size: 3em;
-
-  /*
-  left: 50%;
-  transform: translate(-50%,-25vh);
-  */
-
-  transform: translate(0%,-50%);
+  margin: 0;
 }
 
 
 #manifesto{
-  margin-top: 3em;
   margin-bottom: 3em;
   font-size: 2em;
   width: 80vw;
@@ -95,6 +86,9 @@ html {
   font-size: 2em;
 }
 
+ol {
+  list-style-type: none;
+}
 #whoweare {
 }
 
@@ -126,12 +120,15 @@ a:active {
 
 .blog__post {
   display: flex;
-  background-color: rgba(255, 255, 255, 0.1);
   padding: 1em;
   margin: 1em auto; /* Center the cards horizontally and add spacing */
   border-radius: 5px;
   max-width: 600px; /* Limit the maximum width of the cards */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+  color: white;
+  /*
+  background-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  */
 }
 
 .blog__date {
@@ -171,6 +168,7 @@ a:active {
   padding: 0;
   display: flex;
   justify-content: space-around;
+  flex-wrap: wrap;
 }
 
 .nav-item {
@@ -188,3 +186,4 @@ a:active {
 .nav-link:hover {
   color: var(--solid-blue);
 }
+
