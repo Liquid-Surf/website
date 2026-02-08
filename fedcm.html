@@ -1,18 +1,450 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FedCM</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FedCM + IdP Registration — Call to action</title>
+
+  <!-- Site CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css" />
+
+  <!-- Page CSS -->
+  <style>
+    /* Page-only additions (keeps the Liquid look, adds structure for this CTA page) */
+    body { margin: 0; }
+
+    .container {
+      padding: 1.25rem;
+      line-height: 1.35;
+      text-wrap: pretty;
+      font-size: 1rem;
+    }
+
+    .hero {
+      min-height: 70vh;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    h1, h2, h3 { margin: 0 0 0.75rem 0; }
+    h1 { font-size: clamp(2rem, 3.5vw, 3.2rem); }
+    h2 { font-size: clamp(1.6rem, 2.5vw, 2.2rem); margin-top: 2.5rem; }
+    h3 { font-size: 1.25rem; }
+
+    .lead {
+      font-size: clamp(1.1rem, 2vw, 1.5rem);
+      opacity: 0.95;
+      max-width: 52ch;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 0.75rem 0 1.25rem 0;
+    }
+    .badge {
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(0,0,0,0.15);
+      padding: 0.35rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-family: 'Courier New', monospace;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.65rem 0.95rem;
+      border-radius: 0.6rem;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(0,0,0,0.22);
+      color: white;
+      text-decoration: none;
+      font-size: 1.05rem;
+      font-family: 'Courier New', monospace;
+      cursor: pointer;
+      user-select: none;
+    }
+    .btn:hover { transform: translate(1px, -1px); }
+    .btn:active { transform: translate(-1px, 1px); }
+
+    .btn-primary {
+      border-color: rgba(24,169,230,0.6);
+      background: rgba(24,169,230,0.18);
+    }
+    .btn-ghost { background: rgba(0,0,0,0.12); }
+
+    .panel {
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(0,0,0,0.14);
+      border-radius: 0.8rem;
+      padding: 1rem;
+      margin-top: 1.25rem;
+    }
+
+    .grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: 1fr;
+      marin: 2rem;
+    }
+    @media (min-width: 860px) {
+      .grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    .card {
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(0,0,0,0.12);
+      border-radius: 0.8rem;
+      padding: 1rem;
+      margin: 1rem;
+    }
+    .card p { margin: 0.5rem 0 0 0; font-family: 'Courier New', monospace; }
+
+    .checklist {
+      margin: 0.75rem 0 0 0;
+      padding-left: 0;
+      list-style: none;
+      font-family: 'Courier New', monospace;
+    }
+    .checklist li { margin: 0.45rem 0; }
+    .checklist li::before { content: "✓ "; color: var(--solid-blue); }
+
+    .video-wrap {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 0.8rem;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(0,0,0,0.2);
+    }
+    video { width: 100%; height: 100%; display: block; }
+
+    label {
+      display: block;
+      margin: 0.75rem 0 0.25rem 0;
+      font-family: 'Courier New', monospace;
+      font-size: 1rem;
+      opacity: 0.95;
+    }
+    input, select, textarea {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 0.6rem 0.7rem;
+      border-radius: 0.6rem;
+      border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(0,0,0,0.18);
+      color: white;
+      font-family: 'Courier New', monospace;
+      font-size: 1rem;
+    }
+    textarea { min-height: 9rem; resize: vertical; }
+
+    .muted {
+      opacity: 0.8;
+      font-size: 0.95rem;
+      font-family:  'Courier New', monospace;
+      margin-top: 0.5rem;
+    }
+
+    .footer {
+      margin: 3rem 0 1rem 0;
+      opacity: 0.85;
+      font-family: 'Courier New', monospace;
+      font-size: 0.95rem;
+    }
+
+    /* Nice anchor jumps */
+    :target { scroll-margin-top: 2rem; }
+  </style>
+
+  <!-- Social sharing (optional but useful) -->
+  <meta property="og:title" content="FedCM + IdP Registration — Call to action" />
+  <meta property="og:description" content="Help push IdP registration forward: share the demo, talk about it, and submit a real-world use case." />
+  <meta property="og:type" content="website" />
 </head>
+
 <body>
-    <h1>Under construction...</h1>
-    <h2>How can you help ?</h2>
-    <ul>
-        <li>share the video</li>
-        <li>share use you use case</li>
-        <li>fill the form</li>
-        <li>build a PoC</li>
-    </ul>
+  <!-- Optional canvas placeholder (your global CSS styles it). Remove if unused. -->
+  <canvas id="canvas" aria-hidden="true"></canvas>
+
+  <main class="container">
+    <section class="hero" id="top">
+      <div>
+        <h1>FedCM + IdP registration = ♥</h1>
+
+        <p style="font-family: courrier, monospace; font-size: 1.5rem;">
+          In the a few minutes, the video shows what FedCM is, how it changes sign‑in on the web, and why <strong>IdP registration</strong> could improve the Sign-In flow in decentralized ecosystem  </p>
+
+
+
+        <div class="actions">
+          <a class="btn btn-primary" href="#watch">▶ Watch the demo</a>
+          <a class="btn btn-ghost" href="#help">How you can help</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="watch">
+      <h2>Watch the demo</h2>
+
+      <div class="panel">
+        <div class="video-wrap">
+          <video controls preload="metadata" playsinline>
+            <source src="https://static.liquid.surf/fedcm.mp4" type="video/mp4" />
+            Sorry, your browser can’t play this video.
+          </video>
+        </div>
+
+        <div class="actions" style="margin-top: 1rem;">
+          <button class="btn btn-primary" id="shareBtn" type="button">Share this page</button>
+          <button class="btn btn-ghost" id="copyLinkBtn" type="button">Copy link</button>
+        </div>
+
+        <p class="muted" id="shareStatus" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section id="help">
+      <h2>What can you do?</h2>
+
+      <div >
+        <div class="card">
+          <h3>1) Talk about it and Share the video</h3>
+          <p>
+            Post it where your community already is: Mastodon, Matrix rooms, academic mailing lists,
+            internal IT channels, or your federation’s working groups.
+          </p>
+
+        </div>
+
+        <div class="card">
+          <h3>2) Submit a real-world use case</h3>
+          <p>
+            This is the most valuable: concrete examples help justify why IdP registration should exist.
+            Who are the users? What’s painful today? What would improve?
+          </p>
+          <p> Send us an email,  a few word is enough :)</p>
+          <p><a href="mailto:thhck@proton.me">thhck@proton.me</a></p>
+
+        </div>
+
+        <div class="card">
+          <h3>3) Implement FedCM </h3>
+          <p>
+            If you’re a dev and work on structure acting as IdP, implement FedCM to your IdP.
+          </p>
+
+          <p>
+            This would help us proove real interest on this feature. Implementing a Proof of Concept is a proof of interest !
+          </p>
+
+        </div>
+      </div>
+    </section>
+      <p> </p>
+
+	<!--
+    <section id="usecase">
+      <h2>Submit a use case</h2>
+      <div class="panel">
+        <p class="text-font">
+          Fill the form below. When you click “Generate message”, it creates a ready-to-send text you can:
+          copy/paste, email, or post in an issue.
+        </p>
+
+        <form id="usecaseForm">
+          <label for="orgType">Your context</label>
+          <select id="orgType" name="orgType" required>
+            <option value="" selected disabled>Select one…</option>
+            <option>University / research</option>
+            <option>Public institution</option>
+            <option>Federation / identity operator</option>
+            <option>Decentralized / federated web community</option>
+            <option>Other</option>
+          </select>
+
+          <label for="country">Country / region</label>
+          <input id="country" name="country" placeholder="e.g., France, Germany, EU-wide…" />
+
+          <label for="users">Who are the users?</label>
+          <input id="users" name="users" placeholder="e.g., students, citizens, staff, members…" />
+
+          <label for="currentFlow">How does sign-in work today?</label>
+          <textarea id="currentFlow" name="currentFlow" placeholder="Short description: IdP list? discovery portal? federation? big-tech buttons?"></textarea>
+
+          <label for="pain">What sucks today?</label>
+          <textarea id="pain" name="pain" placeholder="Pain points: lock-in, choice overload, support burden, UX friction, phishing risk…"></textarea>
+
+          <label for="improvement">How would IdP registration help?</label>
+          <textarea id="improvement" name="improvement" placeholder="What would become possible? What would be simpler? Who benefits?"></textarea>
+
+          <label for="repo">Where should this go?</label>
+          <select id="repo" name="repo">
+            <option value="feedback">General feedback (recommended)</option>
+            <option value="rp">RP / demo app</option>
+            <option value="idp">IdP / registration demo</option>
+            <option value="spec">Spec / standards notes</option>
+          </select>
+
+          <label for="contact">How can we contact you? (optional)</label>
+          <input id="contact" name="contact" placeholder="Email, Matrix handle, or ‘no contact’" />
+
+          <div class="actions">
+            <button class="btn btn-primary" type="button" id="generateBtn">Generate message</button>
+            <button class="btn btn-ghost" type="button" id="copyMsgBtn" disabled>Copy message</button>
+            <button class="btn btn-ghost" type="button" id="emailBtn" disabled>Open email</button>
+          </div>
+
+          <p class="muted">
+            Note: this page doesn’t send anything automatically. You stay in control: generate → copy → send.
+          </p>
+
+          <label for="out">Generated message</label>
+          <textarea id="out" readonly placeholder="Click “Generate message”…"></textarea>
+
+          <p class="muted">
+            TODO (you can edit the HTML): set the contact email + repo links in the script section.
+          </p>
+        </form>
+      </div>
+    </section>
+	-->
+    <div class="footer">
+      <p>
+        Liquid.surf
+        <a href="#top">Back to top</a>
+      </p>
+    </div>
+  </main>
+
+  <script>
+    // ---- Config (edit these) ----
+    const CONTACT_EMAIL = "contact@liquid.surf"; // TODO: replace with your preferred email
+    // Optional: map "repo" select values to URLs (issues / discussions). Leave empty if unknown.
+    const REPO_LINKS = {
+      feedback: "", // e.g. "https://github.com/ORG/REPO/issues/new?title=FedCM%20IdP%20registration%20use%20case&body="
+      rp: "",
+      idp: "",
+      spec: ""
+    };
+
+    // ---- Share helpers ----
+    const statusEl = document.getElementById("shareStatus");
+
+    function setStatus(msg) {
+      statusEl.textContent = msg || "";
+      if (msg) setTimeout(() => (statusEl.textContent = ""), 3500);
+    }
+
+    async function copyToClipboard(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+        return true;
+      } catch {
+        // Fallback
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "absolute";
+        ta.style.left = "-9999px";
+        document.body.appendChild(ta);
+        ta.select();
+        const ok = document.execCommand("copy");
+        document.body.removeChild(ta);
+        return ok;
+      }
+    }
+
+    document.getElementById("copyLinkBtn").addEventListener("click", async () => {
+      const ok = await copyToClipboard(location.href);
+      setStatus(ok ? "Link copied." : "Could not copy link.");
+    });
+
+    document.getElementById("shareBtn").addEventListener("click", async () => {
+      const data = {
+        title: document.title,
+        text: "FedCM + IdP registration: help push real IdP diversity. Share a real-world use case.",
+        url: location.href
+      };
+      if (navigator.share) {
+        try {
+          await navigator.share(data);
+          setStatus("Thanks for sharing!");
+        } catch {
+          // user canceled
+        }
+      } else {
+        const ok = await copyToClipboard(location.href);
+        setStatus(ok ? "Sharing not supported here — link copied instead." : "Sharing not supported, and copy failed.");
+      }
+    });
+
+    // ---- Use case generator ----
+    const el = (id) => document.getElementById(id);
+    const generateBtn = el("generateBtn");
+    const copyMsgBtn = el("copyMsgBtn");
+    const emailBtn = el("emailBtn");
+    const out = el("out");
+
+    function val(id) { return (el(id).value || "").trim(); }
+
+    function buildMessage() {
+      const repoKey = val("repo") || "feedback";
+      const lines = [];
+
+      lines.push("FedCM IdP registration — real-world use case");
+      lines.push("");
+      lines.push(`Context: ${val("orgType") || "-"}`);
+      if (val("country")) lines.push(`Country/region: ${val("country")}`);
+      if (val("users")) lines.push(`Users: ${val("users")}`);
+      lines.push("");
+      lines.push("How sign-in works today:");
+      lines.push(val("currentFlow") || "-");
+      lines.push("");
+      lines.push("What sucks today:");
+      lines.push(val("pain") || "-");
+      lines.push("");
+      lines.push("How IdP registration would help:");
+      lines.push(val("improvement") || "-");
+      lines.push("");
+      if (val("contact")) lines.push(`Contact (optional): ${val("contact")}`);
+      lines.push("");
+      lines.push(`Repo target: ${repoKey}`);
+
+      return { text: lines.join("\n"), repoKey };
+    }
+
+    generateBtn.addEventListener("click", () => {
+      const { text } = buildMessage();
+      out.value = text;
+      copyMsgBtn.disabled = false;
+      emailBtn.disabled = false;
+      setStatus("Message generated.");
+    });
+
+    copyMsgBtn.addEventListener("click", async () => {
+      const ok = await copyToClipboard(out.value);
+      setStatus(ok ? "Message copied." : "Could not copy message.");
+    });
+
+    emailBtn.addEventListener("click", () => {
+      const subject = encodeURIComponent("FedCM IdP registration — use case");
+      const body = encodeURIComponent(out.value || "");
+      const mailto = `mailto:${encodeURIComponent(CONTACT_EMAIL)}?subject=${subject}&body=${body}`;
+      window.location.href = mailto;
+    });
+  </script>
 </body>
 </html>
