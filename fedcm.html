@@ -32,6 +32,10 @@
     h2 { font-size: clamp(1.6rem, 2.5vw, 2.2rem); margin-top: 2.5rem; }
     h3 { font-size: 1.25rem; }
 
+    p {
+			font-family: 'Courier New', monospace; 
+    }
+
     .lead {
       font-size: clamp(1.1rem, 2vw, 1.5rem);
       opacity: 0.95;
@@ -110,7 +114,9 @@
       padding: 1rem;
       margin: 1rem;
     }
-    .card p { margin: 0.5rem 0 0 0; font-family: 'Courier New', monospace; }
+    .card p { 
+			margin: 0.5rem 0 0 0; 
+    }
 
     .checklist {
       margin: 0.75rem 0 0 0;
@@ -247,13 +253,34 @@
           </p>
 
           <p>
-            This would help us proove real interest on this feature. Implementing a Proof of Concept is a proof of interest !
+            This would help us proove real interest on this feature. Implementing a Proof of Concept is a proof of interest !<br>
+            Checkout the resource bellow to get started. 
           </p>
 
         </div>
       </div>
     </section>
-      <p> </p>
+    <section>
+      <h2>External resources</h2>
+      <ol>
+        <li>
+          <h3><a href="https://indieweb.org/FedCM_for_IndieAuth">FedCM for indieAuth</a></h3>
+          <p>A guide to help IndieAuth developers to add support for the FedCM API to their IndieAuth</p>
+        </li>
+        <li>
+          <h3><a href="https://github.com/aaronpk/oauth-fedcm-profile">FedCM for OAuth</a></h3>
+          <p>A guide to help add FedCM support to OAuth</p>
+        </li>
+        <li>
+          <h3><a href="https://github.com/aaronpk/oauth-fedcm-profile">FedCM MDN Doc</a></h3>
+          <p>A guide to help add FedCM support to your IdP</p>
+        </li>
+        <li>
+          <h3><a href="https://github.com/Liquid-Surf/fedcm-test-suite">FedCM test suite for IdP ( WIP ) </a></h3>
+          <p>Test your IdP for FedCM compatibility </p>
+        </li>
+      </ol>
+    </section>
 
 	<!--
     <section id="usecase">
