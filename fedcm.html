@@ -12,7 +12,6 @@
         async src="//gc.zgo.at/count.js"></script>
   <!-- Page CSS -->
   <style>
-    /* Page-only additions (keeps the Liquid look, adds structure for this CTA page) */
     body { margin: 0; }
 
     .container {
@@ -177,9 +176,8 @@
     :target { scroll-margin-top: 2rem; }
   </style>
 
-  <!-- Social sharing (optional but useful) -->
-  <meta property="og:title" content="FedCM + IdP Registration — Call to action" />
-  <meta property="og:description" content="Help push IdP registration forward: share the demo, talk about it, and submit a real-world use case." />
+  <meta property="og:title" content="Why does this new W3C specification matter for the decentrazlized Web" />
+  <meta property="og:description" content="This video explain what FedCM is and why it can be a turning point if we want more Sigle Sign On diversity on the web" />
   <meta property="og:type" content="website" />
 </head>
 
@@ -358,8 +356,7 @@
   </main>
 
   <script>
-    // ---- Config (edit these) ----
-    const CONTACT_EMAIL = "contact@liquid.surf"; // TODO: replace with your preferred email
+    const CONTACT_EMAIL = "thhck@proton.me"; 
     // Optional: map "repo" select values to URLs (issues / discussions). Leave empty if unknown.
     const REPO_LINKS = {
       feedback: "", // e.g. "https://github.com/ORG/REPO/issues/new?title=FedCM%20IdP%20registration%20use%20case&body="
@@ -368,7 +365,6 @@
       spec: ""
     };
 
-    // ---- Share helpers ----
     const statusEl = document.getElementById("shareStatus");
 
     function setStatus(msg) {
@@ -403,7 +399,7 @@
     document.getElementById("shareBtn").addEventListener("click", async () => {
       const data = {
         title: document.title,
-        text: "FedCM + IdP registration: help push real IdP diversity. Share a real-world use case.",
+        text: "What is FedCM and why does it matter if we want to see more Sigle Sign On diversity",
         url: location.href
       };
       if (navigator.share) {
