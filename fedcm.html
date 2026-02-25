@@ -191,38 +191,28 @@
     <section class="hero" id="top">
       <div>
         <h1>FedCM + IdP registration = ♥</h1>
+       <div class="panel">
+          <div class="video-wrap">
+            <video controls preload="metadata" playsinline>
+              <source src="https://static.liquid.surf/fedcm.mp4" type="video/mp4" />
+              Sorry, your browser can’t play this video.
+            </video>
+          </div>
 
+          <div class="actions" style="margin-top: 1rem;">
+            <button class="btn btn-primary" id="shareBtn" type="button">Share this page</button>
+            <button class="btn btn-ghost" id="copyLinkBtn" type="button">Copy link</button>
+          </div>
+
+          <p class="muted" id="shareStatus" role="status" aria-live="polite"></p>
+        </div>
         <p style="font-family: courrier, monospace; font-size: 1.5rem;">
           In the a few minutes, the video shows what FedCM is, how it changes sign‑in on the web, and why <strong>IdP registration</strong> could improve the Sign-In flow in decentralized ecosystem  </p>
 
-
-
-        <div class="actions">
-          <a class="btn btn-primary" href="#watch">▶ Watch the demo</a>
-          <a class="btn btn-ghost" href="#help">How you can help</a>
-        </div>
       </div>
     </section>
 
-    <section id="watch">
-      <h2>Watch the demo</h2>
 
-      <div class="panel">
-        <div class="video-wrap">
-          <video controls preload="metadata" playsinline>
-            <source src="https://static.liquid.surf/fedcm.mp4" type="video/mp4" />
-            Sorry, your browser can’t play this video.
-          </video>
-        </div>
-
-        <div class="actions" style="margin-top: 1rem;">
-          <button class="btn btn-primary" id="shareBtn" type="button">Share this page</button>
-          <button class="btn btn-ghost" id="copyLinkBtn" type="button">Copy link</button>
-        </div>
-
-        <p class="muted" id="shareStatus" role="status" aria-live="polite"></p>
-      </div>
-    </section>
 
     <section id="help">
       <h2>What can you do?</h2>
